@@ -12,6 +12,58 @@
         --paper: rgba(255, 255, 255, 0.68);
         --line: rgba(255, 255, 255, 0.78);
         --shadow: 0 34px 90px rgba(40, 34, 31, 0.18);
+        --copy-col: 430px;
+        --phone-col: 390px;
+        --actions-col: 360px;
+        --stage-gap: 58px;
+        --phone-width: 390px;
+        --phone-radius: 56px;
+        --phone-padding: 12px;
+        --screen-radius: 44px;
+        --eyebrow-size: 17px;
+        --headline-size: 64px;
+        --body-size: 20px;
+        --card-min-height: 78px;
+        --card-padding-y: 18px;
+        --card-padding-x: 20px;
+        --card-title-size: 17px;
+        --card-body-size: 14px;
+        --topbar-gap: 20px;
+        --nav-gap: 14px;
+        --brand-gap: 12px;
+        --brand-size: 19px;
+        --brand-mark-size: 34px;
+        --brand-mark-radius: 12px;
+        --tab-group-gap: 8px;
+        --tab-group-padding: 7px;
+        --tab-width: 118px;
+        --tab-height: 40px;
+        --tab-size: 14px;
+        --intro-gap: 28px;
+        --intro-padding-y: 78px;
+        --intro-padding-x: 42px;
+        --intro-logo-size: 116px;
+        --intro-title-size: 40px;
+        --intro-tagline-width: 330px;
+        --intro-tagline-size: 34px;
+        --intro-cta-margin: 12px;
+        --intro-cta-padding-y: 15px;
+        --intro-cta-padding-x: 34px;
+        --intro-cta-size: 18px;
+        --intro-foot-margin: 32px;
+        --intro-foot-size: 15px;
+        --scroll-cue-right: -34px;
+        --scroll-cue-width: 26px;
+        --scroll-cue-height: 54px;
+        --scroll-cue-size: 18px;
+        --scroll-cue-arrow-offset: 5px;
+        --task-toast-padding-y: 18px;
+        --task-toast-padding-x: 20px;
+        --task-toast-radius: 24px;
+        --task-toast-offset: 22px;
+        --task-toast-title-gap: 8px;
+        --task-toast-title-size: 20px;
+        --task-toast-body-size: 15px;
       }
 
       * {
@@ -59,35 +111,35 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 20px;
+        gap: var(--topbar-gap);
       }
 
       .nav-wrap {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: var(--nav-gap);
       }
 
       .brand {
         display: flex;
         align-items: center;
-        gap: 12px;
-        font-size: 19px;
+        gap: var(--brand-gap);
+        font-size: var(--brand-size);
         font-weight: 820;
       }
 
       .brand-mark {
-        width: 34px;
-        height: 34px;
-        border-radius: 12px;
+        width: var(--brand-mark-size);
+        height: var(--brand-mark-size);
+        border-radius: var(--brand-mark-radius);
         background: linear-gradient(145deg, #b88496, #f1c3ae);
         box-shadow: 0 14px 28px rgba(169, 121, 139, 0.28);
       }
 
       .tabs {
         display: flex;
-        gap: 8px;
-        padding: 7px;
+        gap: var(--tab-group-gap);
+        padding: var(--tab-group-padding);
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.56);
         border: 1px solid var(--line);
@@ -97,7 +149,7 @@
 
       .product-tab {
         display: flex;
-        padding: 7px;
+        padding: var(--tab-group-padding);
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.64);
         border: 1px solid var(--line);
@@ -106,12 +158,12 @@
       }
 
       .tab {
-        min-width: 118px;
-        height: 40px;
+        min-width: var(--tab-width);
+        height: var(--tab-height);
         border-radius: 999px;
         background: transparent;
         color: rgba(25, 23, 22, 0.55);
-        font-size: 14px;
+        font-size: var(--tab-size);
         font-weight: 760;
         transition: 220ms ease;
       }
@@ -124,10 +176,10 @@
 
       .stage {
         display: grid;
-        grid-template-columns: minmax(280px, 450px) minmax(340px, 592px) minmax(250px, 390px);
+        grid-template-columns: var(--copy-col) var(--phone-col) var(--actions-col);
         align-items: center;
         justify-content: center;
-        gap: clamp(18px, 4vw, 54px);
+        gap: var(--stage-gap);
         min-height: calc(100vh - 96px);
       }
 
@@ -138,31 +190,31 @@
       .eyebrow {
         margin: 0 0 16px;
         color: var(--rose);
-        font-size: 17px;
+        font-size: var(--eyebrow-size);
         font-weight: 820;
       }
 
       h1 {
         margin: 0;
-        max-width: 430px;
-        font-size: clamp(44px, 5vw, 70px);
+        max-width: var(--copy-col);
+        font-size: var(--headline-size);
         line-height: 0.94;
         letter-spacing: 0;
       }
 
       .body {
-        max-width: 410px;
+        max-width: calc(var(--copy-col) - 20px);
         margin: 24px 0 0;
         color: var(--soft);
-        font-size: 20px;
+        font-size: var(--body-size);
         line-height: 1.42;
         font-weight: 540;
       }
 
       .phone-wrap {
         position: relative;
-        width: min(38vw, 414px);
-        min-width: 330px;
+        width: var(--phone-width);
+        min-width: 0;
         justify-self: center;
       }
 
@@ -170,8 +222,8 @@
         position: relative;
         width: 100%;
         aspect-ratio: 592 / 1280;
-        border-radius: 56px;
-        padding: 12px;
+        border-radius: var(--phone-radius);
+        padding: var(--phone-padding);
         background: #111;
         box-shadow: 0 42px 92px rgba(35, 29, 28, 0.24), 0 0 0 1px rgba(255, 255, 255, 0.42);
         overflow: hidden;
@@ -181,7 +233,7 @@
         position: relative;
         width: 100%;
         height: 100%;
-        border-radius: 44px;
+        border-radius: var(--screen-radius);
         overflow: hidden;
         background: #fff;
         user-select: none;
@@ -217,21 +269,21 @@
 
       .scroll-cue {
         position: absolute;
-        right: -34px;
+        right: var(--scroll-cue-right);
         top: 50%;
         z-index: 6;
         display: none;
         align-items: center;
         justify-content: center;
-        width: 26px;
-        height: 54px;
+        width: var(--scroll-cue-width);
+        height: var(--scroll-cue-height);
         border-radius: 999px;
         color: rgba(122, 86, 105, 0.68);
         background: rgba(255, 255, 255, 0.56);
         border: 1px solid rgba(169, 121, 139, 0.12);
         box-shadow: 0 10px 22px rgba(96, 72, 83, 0.1);
         transform: translateY(-50%);
-        font-size: 18px;
+        font-size: var(--scroll-cue-size);
         font-weight: 760;
         letter-spacing: 0;
         pointer-events: none;
@@ -246,7 +298,7 @@
         content: "↑";
         display: block;
         line-height: 1;
-        transform: translateY(-5px);
+        transform: translateY(calc(var(--scroll-cue-arrow-offset) * -1));
         animation: scrollCueUp 1700ms ease-in-out infinite;
       }
 
@@ -254,7 +306,7 @@
         content: "↓";
         display: block;
         line-height: 1;
-        transform: translateY(5px);
+        transform: translateY(var(--scroll-cue-arrow-offset));
         animation: scrollCueDown 1700ms ease-in-out infinite;
       }
 
@@ -345,14 +397,14 @@
         top: 54%;
         z-index: 7;
         width: 78%;
-        padding: 18px 20px;
-        border-radius: 24px;
+        padding: var(--task-toast-padding-y) var(--task-toast-padding-x);
+        border-radius: var(--task-toast-radius);
         background: rgba(255, 255, 255, 0.92);
         border: 1px solid rgba(169, 121, 139, 0.14);
         box-shadow: 0 24px 60px rgba(96, 72, 83, 0.2);
         color: #715465;
         text-align: center;
-        transform: translateX(-50%) translateY(22px) scale(0.94);
+        transform: translateX(-50%) translateY(var(--task-toast-offset)) scale(0.94);
         opacity: 0;
         pointer-events: none;
         transition: opacity 260ms ease, transform 360ms cubic-bezier(0.2, 0.9, 0.22, 1);
@@ -365,15 +417,15 @@
 
       .task-toast strong {
         display: block;
-        margin-bottom: 8px;
-        font-size: 20px;
+        margin-bottom: var(--task-toast-title-gap);
+        font-size: var(--task-toast-title-size);
         line-height: 1.1;
         color: #5f4657;
       }
 
       .task-toast span {
         display: block;
-        font-size: 15px;
+        font-size: var(--task-toast-body-size);
         line-height: 1.35;
         color: #8c7180;
       }
@@ -382,8 +434,8 @@
         display: grid;
         align-content: center;
         justify-items: center;
-        gap: 28px;
-        padding: 78px 42px;
+        gap: var(--intro-gap);
+        padding: var(--intro-padding-y) var(--intro-padding-x);
         text-align: center;
         background:
           radial-gradient(circle at 52% 20%, rgba(255, 255, 255, 0.96) 0 20%, rgba(255, 255, 255, 0) 38%),
@@ -406,8 +458,8 @@
 
       .intro-logo {
         position: relative;
-        width: 116px;
-        height: 116px;
+        width: var(--intro-logo-size);
+        height: var(--intro-logo-size);
         border-radius: 0;
         padding: 0;
         background: transparent;
@@ -430,36 +482,36 @@
 
       .intro-title {
         margin: 8px 0 0;
-        font-size: 40px;
+        font-size: var(--intro-title-size);
         line-height: 1;
         font-weight: 800;
         color: #453844;
       }
 
       .intro-tagline {
-        max-width: 330px;
+        max-width: var(--intro-tagline-width);
         margin: 0;
-        font-size: 34px;
+        font-size: var(--intro-tagline-size);
         line-height: 1.18;
         font-weight: 760;
         color: #6b5360;
       }
 
       .intro-cta {
-        margin-top: 12px;
-        padding: 15px 34px;
+        margin-top: var(--intro-cta-margin);
+        padding: var(--intro-cta-padding-y) var(--intro-cta-padding-x);
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.78);
         color: #9b6577;
-        font-size: 18px;
+        font-size: var(--intro-cta-size);
         font-weight: 760;
         box-shadow: 0 18px 42px rgba(120, 79, 95, 0.13);
       }
 
       .intro-foot {
-        margin-top: 32px;
+        margin-top: var(--intro-foot-margin);
         color: rgba(91, 70, 81, 0.54);
-        font-size: 15px;
+        font-size: var(--intro-foot-size);
         font-weight: 760;
         will-change: transform, opacity;
         animation: introFootRise 5200ms ease-in-out infinite;
@@ -637,8 +689,8 @@
       }
 
       .action-card {
-        min-height: 78px;
-        padding: 18px 20px;
+        min-height: var(--card-min-height);
+        padding: var(--card-padding-y) var(--card-padding-x);
         border-radius: 24px;
         background: rgba(255, 255, 255, 0.54);
         border: 1px solid var(--line);
@@ -658,14 +710,14 @@
 
       .action-card b {
         display: block;
-        font-size: 17px;
+        font-size: var(--card-title-size);
         margin-bottom: 6px;
       }
 
       .action-card span {
         display: block;
         color: var(--soft);
-        font-size: 14px;
+        font-size: var(--card-body-size);
         line-height: 1.34;
       }
 
@@ -712,27 +764,6 @@
       }
 
       @media (max-width: 1120px) {
-        .stage {
-          grid-template-columns: 1fr;
-          gap: 22px;
-          padding-top: 28px;
-        }
-
-        .story-copy,
-        .demo-actions {
-          justify-self: center;
-          width: min(100%, 620px);
-        }
-
-        h1,
-        .body {
-          max-width: 620px;
-        }
-
-        .phone-wrap {
-          width: min(78vw, 414px);
-        }
-
         .callout {
           right: auto;
           left: 50%;
@@ -748,35 +779,12 @@
       }
 
       @media (max-width: 640px) {
-        .topbar {
-          align-items: flex-start;
-          flex-direction: column;
-        }
-
         .nav-wrap {
-          width: 100%;
           overflow-x: auto;
         }
 
         .tabs {
           flex: 1 0 auto;
-        }
-
-        .tab {
-          min-width: 105px;
-        }
-
-        .phone-wrap {
-          min-width: 292px;
-        }
-
-        .phone {
-          border-radius: 42px;
-          padding: 9px;
-        }
-
-        .screen {
-          border-radius: 34px;
         }
       }
     </style>
@@ -800,9 +808,9 @@
       <section class="stage">
         <div class="story-copy">
           <p class="eyebrow" id="eyebrow">00 · Product</p>
-          <h1 id="headline">Your life is the main storyline.</h1>
+          <h1 id="headline">Turn progress into connection.</h1>
           <p class="body" id="body">
-            A standalone product moment that sets the emotional tone before moving into character creation, chat, and planning.
+            Customize your character, complete real-life tasks, unlock story chapters, and grow together.
           </p>
         </div>
 
@@ -813,7 +821,7 @@
                 <div class="intro-orb"></div>
                 <div class="intro-logo"><img src="assets/luvluv-app-icon.png" alt="Luvluv Daily logo" /></div>
                 <h2 class="intro-title">Luvluv Daily</h2>
-                <p class="intro-tagline">Your life is the main storyline.</p>
+                <p class="intro-tagline">Fall in love with your daily life</p>
                 <div class="intro-cta">Open demo</div>
                 <div class="intro-foot">Qkinteq AI</div>
               </div>
@@ -839,7 +847,7 @@
 
               <button class="hotspot visible" data-hotspot="dice" style="left: 72%; top: 58%; width: 12%; height: 7%;" aria-label="Random persona"></button>
               <button class="hotspot visible" data-hotspot="reset" style="left: 86%; top: 58%; width: 11%; height: 7%;" aria-label="Reset persona"></button>
-              <button class="hotspot" data-hotspot="openDemo" style="left: 27%; top: 61%; width: 46%; height: 8%;" aria-label="Open demo"></button>
+              <button class="hotspot" data-hotspot="openDemo" style="left: 27%; top: 62.8%; width: 46%; height: 5.8%;" aria-label="Open demo"></button>
               <button class="hotspot ai-character-hotspot" data-hotspot="aiCharacter" style="left: 68%; top: 45%;" aria-label="Create a new AI Character"></button>
               <button class="hotspot visible" data-hotspot="style" style="left: 28%; top: 86%; width: 45%; height: 7%;" aria-label="Choose art style"></button>
               <button class="hotspot arrow-hotspot" data-hotspot="stylePrev" data-arrow="‹" style="left: 0%; top: 22%; width: 14%; height: 52%;" aria-label="Previous art style"></button>
@@ -866,15 +874,15 @@
         <div class="demo-actions" id="submodules">
           <button class="action-card active" data-submodule="0">
             <b>Product overview</b>
-            <span>A standalone product identity screen with the Luvluv Daily logo and storyline promise.</span>
+            <span>An AI companion that transforms daily goals into meaningful relationships.</span>
           </button>
           <button class="action-card" data-submodule="1">
-            <b>Dice & reset</b>
-            <span>Use real UI hotspots to show random persona prompts and safe section reset.</span>
+            <b>Explore the Product</b>
+            <span>Click "Open Demo" to experience the real app interface. Tap the highlighted points to explore key features.</span>
           </button>
           <button class="action-card" data-submodule="2">
             <b>Art style</b>
-            <span>Switch to the actual Choose Art Style screen and highlight the preview.</span>
+            <span>Choose a visual style and generate a companion that matches your imagination.</span>
           </button>
           <div class="timer" id="timer">
             <div class="time" id="time">25:00</div>
@@ -886,23 +894,158 @@
     </main>
 
     <script>
+      (() => {
+        const design = {
+          width: 1296,
+          height: 846,
+          copyCol: 430,
+          phoneCol: 390,
+          actionsCol: 360,
+          gap: 58,
+          phoneWidth: 390,
+          phoneRadius: 56,
+          phonePadding: 12,
+          screenRadius: 44,
+          eyebrow: 17,
+          headline: 64,
+          body: 20,
+          cardMinHeight: 78,
+          cardPaddingY: 18,
+          cardPaddingX: 20,
+          cardTitle: 17,
+          cardBody: 14,
+          topbarGap: 20,
+          navGap: 14,
+          brandGap: 12,
+          brand: 19,
+          brandMark: 34,
+          brandMarkRadius: 12,
+          tabGroupGap: 8,
+          tabGroupPadding: 7,
+          tabWidth: 118,
+          tabHeight: 40,
+          tab: 14,
+          introGap: 28,
+          introPaddingY: 78,
+          introPaddingX: 42,
+          introLogo: 116,
+          introTitle: 40,
+          introTaglineWidth: 330,
+          introTagline: 34,
+          introCtaMargin: 12,
+          introCtaPaddingY: 15,
+          introCtaPaddingX: 34,
+          introCta: 18,
+          introFootMargin: 32,
+          introFoot: 15,
+          scrollCueRight: -34,
+          scrollCueWidth: 26,
+          scrollCueHeight: 54,
+          scrollCue: 18,
+          scrollCueArrowOffset: 5,
+          taskToastPaddingY: 18,
+          taskToastPaddingX: 20,
+          taskToastRadius: 24,
+          taskToastOffset: 22,
+          taskToastTitleGap: 8,
+          taskToastTitle: 20,
+          taskToastBody: 15
+        };
+
+        function setPx(name, value) {
+          document.documentElement.style.setProperty(name, `${Math.round(value * 100) / 100}px`);
+        }
+
+        function fitDemoStage() {
+          const app = document.querySelector(".app");
+          const topbar = document.querySelector(".topbar");
+          if (!app || !topbar) return;
+
+          const appStyle = window.getComputedStyle(app);
+          const horizontalPadding = parseFloat(appStyle.paddingLeft) + parseFloat(appStyle.paddingRight);
+          const verticalPadding = parseFloat(appStyle.paddingTop) + parseFloat(appStyle.paddingBottom);
+          const topbarHeight = topbar.getBoundingClientRect().height;
+          const availableWidth = Math.max(320, window.innerWidth - horizontalPadding);
+          const availableHeight = Math.max(320, window.innerHeight - verticalPadding - topbarHeight - 16);
+          const scale = Math.min(1, availableWidth / design.width, availableHeight / design.height);
+
+          setPx("--copy-col", design.copyCol * scale);
+          setPx("--phone-col", design.phoneCol * scale);
+          setPx("--actions-col", design.actionsCol * scale);
+          setPx("--stage-gap", design.gap * scale);
+          setPx("--phone-width", design.phoneWidth * scale);
+          setPx("--phone-radius", design.phoneRadius * scale);
+          setPx("--phone-padding", design.phonePadding * scale);
+          setPx("--screen-radius", design.screenRadius * scale);
+          setPx("--eyebrow-size", design.eyebrow * scale);
+          setPx("--headline-size", design.headline * scale);
+          setPx("--body-size", design.body * scale);
+          setPx("--card-min-height", design.cardMinHeight * scale);
+          setPx("--card-padding-y", design.cardPaddingY * scale);
+          setPx("--card-padding-x", design.cardPaddingX * scale);
+          setPx("--card-title-size", design.cardTitle * scale);
+          setPx("--card-body-size", design.cardBody * scale);
+          setPx("--topbar-gap", design.topbarGap * scale);
+          setPx("--nav-gap", design.navGap * scale);
+          setPx("--brand-gap", design.brandGap * scale);
+          setPx("--brand-size", design.brand * scale);
+          setPx("--brand-mark-size", design.brandMark * scale);
+          setPx("--brand-mark-radius", design.brandMarkRadius * scale);
+          setPx("--tab-group-gap", design.tabGroupGap * scale);
+          setPx("--tab-group-padding", design.tabGroupPadding * scale);
+          setPx("--tab-width", design.tabWidth * scale);
+          setPx("--tab-height", design.tabHeight * scale);
+          setPx("--tab-size", design.tab * scale);
+          setPx("--intro-gap", design.introGap * scale);
+          setPx("--intro-padding-y", design.introPaddingY * scale);
+          setPx("--intro-padding-x", design.introPaddingX * scale);
+          setPx("--intro-logo-size", design.introLogo * scale);
+          setPx("--intro-title-size", design.introTitle * scale);
+          setPx("--intro-tagline-width", design.introTaglineWidth * scale);
+          setPx("--intro-tagline-size", design.introTagline * scale);
+          setPx("--intro-cta-margin", design.introCtaMargin * scale);
+          setPx("--intro-cta-padding-y", design.introCtaPaddingY * scale);
+          setPx("--intro-cta-padding-x", design.introCtaPaddingX * scale);
+          setPx("--intro-cta-size", design.introCta * scale);
+          setPx("--intro-foot-margin", design.introFootMargin * scale);
+          setPx("--intro-foot-size", design.introFoot * scale);
+          setPx("--scroll-cue-right", design.scrollCueRight * scale);
+          setPx("--scroll-cue-width", design.scrollCueWidth * scale);
+          setPx("--scroll-cue-height", design.scrollCueHeight * scale);
+          setPx("--scroll-cue-size", design.scrollCue * scale);
+          setPx("--scroll-cue-arrow-offset", design.scrollCueArrowOffset * scale);
+          setPx("--task-toast-padding-y", design.taskToastPaddingY * scale);
+          setPx("--task-toast-padding-x", design.taskToastPaddingX * scale);
+          setPx("--task-toast-radius", design.taskToastRadius * scale);
+          setPx("--task-toast-offset", design.taskToastOffset * scale);
+          setPx("--task-toast-title-gap", design.taskToastTitleGap * scale);
+          setPx("--task-toast-title-size", design.taskToastTitle * scale);
+          setPx("--task-toast-body-size", design.taskToastBody * scale);
+        }
+
+        fitDemoStage();
+        window.addEventListener("resize", fitDemoStage);
+        window.addEventListener("orientationchange", fitDemoStage);
+        window.addEventListener("load", fitDemoStage);
+      })();
+
       const copy = {
         custom: {
           eyebrow: "01 · Custom Character",
-          headline: "Create a companion from a few personal details.",
-          body: "The demo uses the real app UI. Tap the glowing points directly on the screen to preview random persona prompts, reset, and art style selection.",
+          headline: "Customize Your Ideal AI Companion",
+          body: "Define their personality or discover one by surprise, choose their visual style, and bring your ideal companion to life.",
           screen: "custom-form"
         },
         chat: {
-          eyebrow: "02 · Presence Chat",
-          headline: "The character stays at the center of the conversation.",
-          body: "Tap the character or task chips. The concept layer explains how future motion responses can make chat feel more present and companion-like.",
+          eyebrow: "02 · Interactive Companion",
+          headline: "Your companion feels alive.",
+          body: "More than a chatbot. Your companion doesn't just respond. They greet you, react to your emotions, and stay involved in your daily goals and plans.",
           screen: "chat"
         },
         planning: {
           eyebrow: "03 · Planning Companion",
-          headline: "Plans move into focus sessions and story rewards.",
-          body: "Tap manual planning, AI import, or start focus. The interaction stays on top of the app UI so viewers understand the actual product flow.",
+          headline: "Progress unlocks the story.",
+          body: "Create goals, stay focused, and watch your relationship grow through every completed task.",
           screen: "planning"
         }
       };
@@ -1032,18 +1175,18 @@
         const mainCopy = {
           custom: {
             eyebrow: "01 · Custom Character",
-            headline: "Create a companion from a few personal details.",
-            body: "Use the real character creation UI to show guided inputs, inspiration shortcuts, reference imagery, and style selection."
+            headline: "Customize Your Ideal AI Companion",
+            body: "Define their personality or discover one by surprise, choose their visual style, and bring your ideal companion to life."
           },
           chat: {
-            eyebrow: "02 · Presence Chat",
-            headline: "The character stays at the center of the conversation.",
-            body: "The chat demo keeps the character as the emotional anchor, then adds concept callouts for motion and task-aware responses."
+            eyebrow: "02 · Interactive Companion",
+            headline: "Your companion feels alive.",
+            body: "More than a chatbot. Your companion doesn't just respond. They greet you, react to your emotions, and stay involved in your daily goals and plans."
           },
           planning: {
             eyebrow: "03 · Planning Companion",
-            headline: "Plans move into focus sessions and story rewards.",
-            body: "Planning is presented through real UI screens: create a plan, import with AI, enter focus, and unlock story progress."
+            headline: "Progress unlocks the story.",
+            body: "Create goals, stay focused, and watch your relationship grow through every completed task."
           }
         };
 
@@ -1095,14 +1238,14 @@
             },
             {
               title: "Motion response",
-              text: "Conceptual motion cues show how the character can react to tone, intent, and emotional context.",
+              text: "Your companion can express emotions through animations, bringing conversations to life.",
               screen: "chat",
               hotspots: ["characterMotion"],
               callout: ["Motion response", "Future animation can translate chat context into posture, expression, and presence."]
             },
             {
-              title: "Task-aware chat",
-              text: "Task chips connect chatting with planning, so companionship can move directly into action.",
+              title: "Planning-aware Chat",
+              text: "Your companion can chat, plan, and help you stay on track in one place.",
               screen: "chat",
               hotspots: ["chatTask"],
               callout: ["Task shortcut", "The chat screen can become the bridge into a focused productivity moment."]
@@ -1407,23 +1550,23 @@
         const copy = {
           intro: {
             eyebrow: "00 - Product",
-            headline: "Your life is the main storyline.",
-            body: "A standalone product moment that sets the emotional tone before the demo moves into character creation, chat, and planning."
+            headline: "Turn progress into connection.",
+            body: "Customize your character, complete real-life tasks, unlock story chapters, and grow together."
           },
           custom: {
             eyebrow: "01 - Custom Character",
-            headline: "Create a companion from a few personal details.",
-            body: "The demo uses the real app UI. Tap the glowing points directly on the screen to preview random persona prompts, reset, and art style selection."
+            headline: "Customize Your Ideal AI Companion",
+            body: "Define their personality or discover one by surprise, choose their visual style, and bring your ideal companion to life."
           },
           chat: {
-            eyebrow: "02 - Presence Chat",
-            headline: "The character stays at the center of the conversation.",
-            body: "Tap the character or task chips. The concept layer explains how future motion responses can make chat feel more present and companion-like."
+            eyebrow: "02 - Interactive Companion",
+            headline: "Your companion feels alive.",
+            body: "More than a chatbot. Your companion doesn't just respond. They greet you, react to your emotions, and stay involved in your daily goals and plans."
           },
           planning: {
             eyebrow: "03 - Planning Companion",
-            headline: "Plans move into focus sessions and story rewards.",
-            body: "Create tasks manually or with AI, move into a Pomodoro session, then unlock a personal story with the character."
+            headline: "Progress unlocks the story.",
+            body: "Create goals, stay focused, and watch your relationship grow through every completed task."
           }
         };
 
@@ -1431,10 +1574,17 @@
           intro: [
             {
               title: "Product overview",
-              text: "A soft product screen with the Luvluv Daily logo, product name, and storyline promise.",
+              text: "An AI companion that transforms daily goals into meaningful relationships.",
               screen: "intro",
               hotspots: ["openDemo"],
               callout: ["Product overview", "This screen stands apart from the three feature modules and gives the demo a warm product identity."]
+            },
+            {
+              title: "Explore the Product",
+              text: "Click \"Open Demo\" to experience the real app interface. Tap the highlighted points to explore key features.",
+              screen: "intro",
+              hotspots: ["openDemo"],
+              callout: ["Explore the Product", "Click Open Demo to enter the real app interface, then tap the highlighted points to explore key features."]
             }
           ],
           custom: [
@@ -1447,14 +1597,14 @@
             },
             {
               title: "Dice & reset",
-              text: "Use real UI hotspots to show random persona prompts and safe section reset.",
+              text: "Not sure where to start? Let AI surprise you with a randomly generated personality.",
               screen: "custom-form",
               hotspots: ["dice", "reset"],
               callout: ["Inspiration shortcuts", "Dice and reset make the MVP feel faster, lighter, and more playful."]
             },
             {
               title: "Art style",
-              text: "Swipe through three real style previews and tune the character image.",
+              text: "Choose a visual style and generate a companion that matches your imagination.",
               screen: "art-style-1",
               hotspots: ["stylePrev", "styleNext"],
               callout: ["Choose Art Style", "Use the side arrows to compare the three visual styles in order."]
@@ -1470,14 +1620,14 @@
             },
             {
               title: "Motion response",
-              text: "Conceptual motion cues show how the character can react to tone, intent, and emotional context.",
+              text: "Your companion can express emotions through animations, bringing conversations to life.",
               screen: "chat",
               hotspots: ["characterMotion"],
               callout: ["Motion response", "Future animation can translate chat context into posture, expression, and presence."]
             },
             {
-              title: "Task-aware chat",
-              text: "Task chips connect chatting with planning, so companionship can move directly into action.",
+              title: "Planning-aware Chat",
+              text: "Your companion can chat, plan, and help you stay on track in one place.",
               screen: "chat",
               hotspots: ["chatTask"],
               callout: ["Task shortcut", "The chat screen can become the bridge into a focused productivity moment."]
@@ -1492,7 +1642,7 @@
               callout: ["Plan creation", "Users can choose the fastest path: manual input when they know the task, AI import when the material is messy."]
             },
             {
-              title: "Pomodoro",
+              title: "Pomodoro timer",
               text: "Swipe a task into Pomodoro, set the time, then start a companion focus chat.",
               screen: "planning",
               hotspots: ["focus"],
