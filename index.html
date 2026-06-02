@@ -1,0 +1,1882 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Luvluv Daily App Demo</title>
+    <style>
+      :root {
+        --ink: #191716;
+        --soft: rgba(25, 23, 22, 0.64);
+        --rose: #a9798b;
+        --paper: rgba(255, 255, 255, 0.68);
+        --line: rgba(255, 255, 255, 0.78);
+        --shadow: 0 34px 90px rgba(40, 34, 31, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.96), transparent 24%),
+          radial-gradient(circle at 78% 18%, rgba(229, 207, 218, 0.42), transparent 32%),
+          radial-gradient(circle at 72% 82%, rgba(245, 200, 178, 0.34), transparent 30%),
+          linear-gradient(135deg, #fbfaf8, #f4edf1 46%, #f8eee8);
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(25, 23, 22, 0.032) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(25, 23, 22, 0.032) 1px, transparent 1px);
+        background-size: 42px 42px;
+        opacity: 0.46;
+      }
+
+      button {
+        font: inherit;
+        border: 0;
+        cursor: pointer;
+      }
+
+      .app {
+        position: relative;
+        min-height: 100vh;
+        padding: 26px clamp(18px, 4vw, 64px) 34px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .nav-wrap {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 19px;
+        font-weight: 820;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        background: linear-gradient(145deg, #b88496, #f1c3ae);
+        box-shadow: 0 14px 28px rgba(169, 121, 139, 0.28);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        padding: 7px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.56);
+        border: 1px solid var(--line);
+        box-shadow: 0 16px 44px rgba(42, 36, 31, 0.09);
+        backdrop-filter: blur(20px);
+      }
+
+      .product-tab {
+        display: flex;
+        padding: 7px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.64);
+        border: 1px solid var(--line);
+        box-shadow: 0 16px 44px rgba(42, 36, 31, 0.08);
+        backdrop-filter: blur(20px);
+      }
+
+      .tab {
+        min-width: 118px;
+        height: 40px;
+        border-radius: 999px;
+        background: transparent;
+        color: rgba(25, 23, 22, 0.55);
+        font-size: 14px;
+        font-weight: 760;
+        transition: 220ms ease;
+      }
+
+      .tab.active {
+        color: #fff;
+        background: linear-gradient(135deg, #b48194, #5a4653);
+        box-shadow: 0 12px 28px rgba(129, 83, 102, 0.24);
+      }
+
+      .stage {
+        display: grid;
+        grid-template-columns: minmax(280px, 450px) minmax(340px, 592px) minmax(250px, 390px);
+        align-items: center;
+        justify-content: center;
+        gap: clamp(18px, 4vw, 54px);
+        min-height: calc(100vh - 96px);
+      }
+
+      .story-copy {
+        align-self: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 16px;
+        color: var(--rose);
+        font-size: 17px;
+        font-weight: 820;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 430px;
+        font-size: clamp(44px, 5vw, 70px);
+        line-height: 0.94;
+        letter-spacing: 0;
+      }
+
+      .body {
+        max-width: 410px;
+        margin: 24px 0 0;
+        color: var(--soft);
+        font-size: 20px;
+        line-height: 1.42;
+        font-weight: 540;
+      }
+
+      .phone-wrap {
+        position: relative;
+        width: min(38vw, 414px);
+        min-width: 330px;
+        justify-self: center;
+      }
+
+      .phone {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 592 / 1280;
+        border-radius: 56px;
+        padding: 12px;
+        background: #111;
+        box-shadow: 0 42px 92px rgba(35, 29, 28, 0.24), 0 0 0 1px rgba(255, 255, 255, 0.42);
+        overflow: hidden;
+      }
+
+      .screen {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 44px;
+        overflow: hidden;
+        background: #fff;
+        user-select: none;
+      }
+
+      .screen-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transform: scale(1);
+        transition: opacity 180ms ease;
+      }
+
+      .screen-img.active {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .screen-img.long-screen {
+        height: auto;
+        min-height: 100%;
+        object-fit: contain;
+        object-position: top center;
+        transform: translateY(var(--long-pan, 0px));
+      }
+
+      .screen-img.long-screen.active {
+        transform: translateY(var(--long-pan, 0px));
+      }
+
+      .scroll-cue {
+        position: absolute;
+        right: -34px;
+        top: 50%;
+        z-index: 6;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 54px;
+        border-radius: 999px;
+        color: rgba(122, 86, 105, 0.68);
+        background: rgba(255, 255, 255, 0.56);
+        border: 1px solid rgba(169, 121, 139, 0.12);
+        box-shadow: 0 10px 22px rgba(96, 72, 83, 0.1);
+        transform: translateY(-50%);
+        font-size: 18px;
+        font-weight: 760;
+        letter-spacing: 0;
+        pointer-events: none;
+      }
+
+      .scroll-cue.visible {
+        display: flex;
+        animation: scrollCueFloat 1700ms ease-in-out infinite;
+      }
+
+      .scroll-cue::before {
+        content: "↑";
+        display: block;
+        line-height: 1;
+        transform: translateY(-5px);
+        animation: scrollCueUp 1700ms ease-in-out infinite;
+      }
+
+      .scroll-cue::after {
+        content: "↓";
+        display: block;
+        line-height: 1;
+        transform: translateY(5px);
+        animation: scrollCueDown 1700ms ease-in-out infinite;
+      }
+
+      @keyframes scrollCueFloat {
+        0%, 100% {
+          transform: translateY(-50%) scale(1);
+          box-shadow: 0 10px 26px rgba(94, 70, 84, 0.12);
+        }
+        50% {
+          transform: translateY(calc(-50% - 5px)) scale(1.04);
+          box-shadow: 0 14px 34px rgba(94, 70, 84, 0.18);
+        }
+      }
+
+      @keyframes scrollCueUp {
+        0%, 100% {
+          opacity: 0.48;
+          transform: translateY(-3px);
+        }
+        50% {
+          opacity: 0.95;
+          transform: translateY(-8px);
+        }
+      }
+
+      @keyframes scrollCueDown {
+        0%, 100% {
+          opacity: 0.48;
+          transform: translateY(3px);
+        }
+        50% {
+          opacity: 0.95;
+          transform: translateY(8px);
+        }
+      }
+
+      .phone-timer {
+        position: absolute;
+        left: 31.6%;
+        top: 15.35%;
+        z-index: 7;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        min-width: 72px;
+        height: 20px;
+        padding: 0 10px;
+        border-radius: 999px;
+        background: #f3f0f0;
+        color: #9a798c;
+        box-shadow: 0 14px 30px rgba(96, 72, 83, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.62);
+        font-size: 20px;
+        line-height: 0.92;
+        font-weight: 760;
+        transform: none;
+        pointer-events: none;
+      }
+
+      .phone-timer.visible {
+        display: inline-flex;
+      }
+
+      .phone-timer::before {
+        content: none;
+      }
+
+      .motion-video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms ease;
+      }
+
+      .motion-video.visible {
+        opacity: 1;
+      }
+
+      .task-toast {
+        position: absolute;
+        left: 50%;
+        top: 54%;
+        z-index: 7;
+        width: 78%;
+        padding: 18px 20px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(169, 121, 139, 0.14);
+        box-shadow: 0 24px 60px rgba(96, 72, 83, 0.2);
+        color: #715465;
+        text-align: center;
+        transform: translateX(-50%) translateY(22px) scale(0.94);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 260ms ease, transform 360ms cubic-bezier(0.2, 0.9, 0.22, 1);
+      }
+
+      .task-toast.visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+      }
+
+      .task-toast strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 20px;
+        line-height: 1.1;
+        color: #5f4657;
+      }
+
+      .task-toast span {
+        display: block;
+        font-size: 15px;
+        line-height: 1.35;
+        color: #8c7180;
+      }
+
+      .intro-screen {
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        gap: 28px;
+        padding: 78px 42px;
+        text-align: center;
+        background:
+          radial-gradient(circle at 52% 20%, rgba(255, 255, 255, 0.96) 0 20%, rgba(255, 255, 255, 0) 38%),
+          radial-gradient(circle at 50% 74%, rgba(241, 155, 166, 0.24), rgba(255, 255, 255, 0) 46%),
+          linear-gradient(180deg, #fff8fa 0%, #f8e8ee 54%, #fffafb 100%);
+        color: #5b4651;
+      }
+
+      .intro-orb {
+        position: absolute;
+        width: 140%;
+        aspect-ratio: 1;
+        left: -20%;
+        bottom: -35%;
+        border-radius: 50%;
+        background: rgba(244, 128, 151, 0.2);
+        will-change: transform, opacity;
+        animation: introOrbDrift 7200ms ease-in-out infinite;
+      }
+
+      .intro-logo {
+        position: relative;
+        width: 116px;
+        height: 116px;
+        border-radius: 0;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .intro-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      .intro-title,
+      .intro-tagline,
+      .intro-cta,
+      .intro-foot {
+        position: relative;
+      }
+
+      .intro-title {
+        margin: 8px 0 0;
+        font-size: 40px;
+        line-height: 1;
+        font-weight: 800;
+        color: #453844;
+      }
+
+      .intro-tagline {
+        max-width: 330px;
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.18;
+        font-weight: 760;
+        color: #6b5360;
+      }
+
+      .intro-cta {
+        margin-top: 12px;
+        padding: 15px 34px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.78);
+        color: #9b6577;
+        font-size: 18px;
+        font-weight: 760;
+        box-shadow: 0 18px 42px rgba(120, 79, 95, 0.13);
+      }
+
+      .intro-foot {
+        margin-top: 32px;
+        color: rgba(91, 70, 81, 0.54);
+        font-size: 15px;
+        font-weight: 760;
+        will-change: transform, opacity;
+        animation: introFootRise 5200ms ease-in-out infinite;
+      }
+
+      @keyframes introFootRise {
+        0%, 100% {
+          opacity: 0.58;
+          transform: translateY(0);
+        }
+        50% {
+          opacity: 0.76;
+          transform: translateY(-2px);
+        }
+      }
+
+      @keyframes introOrbDrift {
+        0%, 100% {
+          transform: translateY(0) scale(1);
+          opacity: 0.92;
+        }
+        50% {
+          transform: translateY(-5px) scale(1.01);
+          opacity: 0.98;
+        }
+      }
+
+      .hotspot {
+        position: absolute;
+        display: none;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.01);
+        outline: 0 solid rgba(169, 121, 139, 0);
+      }
+
+      .hotspot.visible {
+        display: block;
+      }
+
+      .hotspot::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 14px;
+        height: 14px;
+        margin: -7px 0 0 -7px;
+        border-radius: 999px;
+        background: rgba(169, 121, 139, 0.82);
+        box-shadow: 0 0 0 8px rgba(169, 121, 139, 0.12);
+        opacity: 0;
+        transform: scale(0.8);
+        transition: opacity 160ms ease, transform 160ms ease;
+      }
+
+      .hotspot:hover {
+        background: rgba(255, 255, 255, 0.18);
+        outline: 2px solid rgba(169, 121, 139, 0.46);
+      }
+
+      .hotspot:hover::after {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .hotspot.guide-hotspot::after {
+        opacity: 1;
+        transform: scale(1);
+        animation: guidePulse 1800ms ease-in-out infinite;
+      }
+
+      .motion-hotspot,
+      .motion-hotspot::after,
+      .ai-character-hotspot,
+      .ai-character-hotspot::after,
+      .select-character-hotspot,
+      .select-character-hotspot::after {
+        border-radius: 50%;
+      }
+
+      .motion-hotspot {
+        width: 190px;
+        height: 190px;
+        transform: translate(-50%, -50%);
+      }
+
+      .ai-character-hotspot {
+        width: 76px;
+        height: 76px;
+      }
+
+      .select-character-hotspot {
+        width: 48px;
+        height: 48px;
+      }
+
+      @keyframes guidePulse {
+        0%, 100% {
+          box-shadow: 0 0 0 8px rgba(169, 121, 139, 0.12), 0 0 0 0 rgba(169, 121, 139, 0.28);
+        }
+        55% {
+          box-shadow: 0 0 0 8px rgba(169, 121, 139, 0.08), 0 0 0 18px rgba(169, 121, 139, 0);
+        }
+      }
+
+      .hotspot.arrow-hotspot {
+        background: transparent;
+      }
+
+      .hotspot.arrow-hotspot:hover {
+        background: transparent;
+        outline: 0;
+      }
+
+      .hotspot.arrow-hotspot::after {
+        content: attr(data-arrow);
+        width: 34px;
+        height: 44px;
+        margin: -22px 0 0 -17px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        color: rgba(122, 86, 105, 0.86);
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow: 0 12px 28px rgba(96, 72, 83, 0.16);
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      @keyframes pulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(169, 121, 139, 0.34); }
+        50% { box-shadow: 0 0 0 18px rgba(169, 121, 139, 0); }
+      }
+
+      .callout {
+        position: absolute;
+        right: -96px;
+        top: 58%;
+        width: 270px;
+        padding: 18px 20px;
+        border-radius: 24px;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(22px);
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+        pointer-events: none;
+        transition: 260ms ease;
+        display: none;
+      }
+
+      .callout.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      .callout strong {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      .callout span {
+        display: block;
+        color: var(--soft);
+        font-size: 15px;
+        line-height: 1.36;
+      }
+
+      .demo-actions {
+        align-self: center;
+        display: grid;
+        gap: 14px;
+      }
+
+      .action-card {
+        min-height: 78px;
+        padding: 18px 20px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.54);
+        border: 1px solid var(--line);
+        box-shadow: 0 18px 48px rgba(42, 36, 31, 0.1);
+        backdrop-filter: blur(18px);
+        text-align: left;
+        color: var(--ink);
+        transition: 220ms ease;
+      }
+
+      .action-card:hover,
+      .action-card.active {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.76);
+        box-shadow: 0 24px 62px rgba(42, 36, 31, 0.14);
+      }
+
+      .action-card b {
+        display: block;
+        font-size: 17px;
+        margin-bottom: 6px;
+      }
+
+      .action-card span {
+        display: block;
+        color: var(--soft);
+        font-size: 14px;
+        line-height: 1.34;
+      }
+
+      .timer {
+        display: none;
+        padding: 18px 20px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.62);
+        border: 1px solid var(--line);
+        box-shadow: 0 18px 48px rgba(42, 36, 31, 0.1);
+      }
+
+      .timer.visible {
+        display: block;
+      }
+
+      .time {
+        font-size: 44px;
+        line-height: 1;
+        font-weight: 850;
+        color: #8f6678;
+      }
+
+      .bar-track {
+        height: 10px;
+        margin-top: 14px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(25, 23, 22, 0.1);
+      }
+
+      .bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #b48194, #efbda8);
+        transition: width 220ms ease;
+      }
+
+      .story-unlock {
+        margin-top: 10px;
+        color: var(--soft);
+        font-size: 14px;
+        line-height: 1.35;
+      }
+
+      @media (max-width: 1120px) {
+        .stage {
+          grid-template-columns: 1fr;
+          gap: 22px;
+          padding-top: 28px;
+        }
+
+        .story-copy,
+        .demo-actions {
+          justify-self: center;
+          width: min(100%, 620px);
+        }
+
+        h1,
+        .body {
+          max-width: 620px;
+        }
+
+        .phone-wrap {
+          width: min(78vw, 414px);
+        }
+
+        .callout {
+          right: auto;
+          left: 50%;
+          top: auto;
+          bottom: 18px;
+          width: min(86%, 310px);
+          transform: translateX(-50%) translateY(12px) scale(0.98);
+        }
+
+        .callout.show {
+          transform: translateX(-50%) translateY(0) scale(1);
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .nav-wrap {
+          width: 100%;
+          overflow-x: auto;
+        }
+
+        .tabs {
+          flex: 1 0 auto;
+        }
+
+        .tab {
+          min-width: 105px;
+        }
+
+        .phone-wrap {
+          min-width: 292px;
+        }
+
+        .phone {
+          border-radius: 42px;
+          padding: 9px;
+        }
+
+        .screen {
+          border-radius: 34px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark"></span><span>Luvluv Daily</span></div>
+        <div class="nav-wrap" aria-label="Demo sections">
+          <nav class="product-tab" aria-label="Product section">
+            <button class="tab active" data-scene="intro">Product</button>
+          </nav>
+          <nav class="tabs" aria-label="Feature sections">
+            <button class="tab" data-scene="custom">Character</button>
+            <button class="tab" data-scene="chat">Chat</button>
+            <button class="tab" data-scene="planning">Planning</button>
+          </nav>
+        </div>
+      </header>
+
+      <section class="stage">
+        <div class="story-copy">
+          <p class="eyebrow" id="eyebrow">00 · Product</p>
+          <h1 id="headline">Your life is the main storyline.</h1>
+          <p class="body" id="body">
+            A standalone product moment that sets the emotional tone before moving into character creation, chat, and planning.
+          </p>
+        </div>
+
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="screen">
+              <div class="screen-img intro-screen active" data-screen="intro">
+                <div class="intro-orb"></div>
+                <div class="intro-logo"><img src="assets/luvluv-app-icon.png" alt="Luvluv Daily logo" /></div>
+                <h2 class="intro-title">Luvluv Daily</h2>
+                <p class="intro-tagline">Your life is the main storyline.</p>
+                <div class="intro-cta">Open demo</div>
+                <div class="intro-foot">Qkinteq AI</div>
+              </div>
+              <img class="screen-img" data-screen="character-home" src="assets/ui-character-home.png" alt="Character home UI" />
+              <img class="screen-img long-screen" data-screen="custom-form" src="assets/ui-new-character-long.jpg" alt="New Character full UI" />
+              <img class="screen-img" data-screen="custom-style" src="assets/ui-custom-20.png" alt="Choose Art Style UI" />
+              <img class="screen-img" data-screen="art-style-1" src="assets/ui-art-style-1.jpg" alt="Choose Art Style option 1" />
+              <img class="screen-img" data-screen="art-style-2" src="assets/ui-art-style-2.jpg" alt="Choose Art Style option 2" />
+              <img class="screen-img" data-screen="art-style-3" src="assets/ui-art-style-3.jpg" alt="Choose Art Style option 3" />
+              <img class="screen-img" data-screen="chat" src="assets/ui-chat.png" alt="Character Chat UI" />
+              <img class="screen-img" data-screen="select-character" src="assets/ui-select-character.jpg" alt="Select Character UI" />
+              <img class="screen-img" data-screen="planning" src="assets/ui-planning.png" alt="Planning UI" />
+              <img class="screen-img" data-screen="focus" src="assets/ui-focus.png" alt="Focus Companion UI" />
+              <img class="screen-img" data-screen="pomodoro-time" src="assets/ui-pomodoro-time.png" alt="Pomodoro time setting UI" />
+              <img class="screen-img" data-screen="chat-clock" src="assets/ui-chat-clock.png" alt="Chat with Pomodoro clock UI" />
+              <img class="screen-img" data-screen="story-chapters" src="assets/ui-story-chapters.png" alt="Exclusive story chapters UI" />
+              <video class="motion-video" id="motionVideo" src="assets/motion-smile-nod.mp4" muted playsinline preload="auto"></video>
+              <div class="phone-timer" id="phoneTimer"><span id="phoneTime">25:00</span></div>
+              <div class="task-toast" id="taskToast">
+                <strong>Congratulations!</strong>
+                <span>You finish reading a book with me.</span>
+              </div>
+
+              <button class="hotspot visible" data-hotspot="dice" style="left: 72%; top: 58%; width: 12%; height: 7%;" aria-label="Random persona"></button>
+              <button class="hotspot visible" data-hotspot="reset" style="left: 86%; top: 58%; width: 11%; height: 7%;" aria-label="Reset persona"></button>
+              <button class="hotspot" data-hotspot="openDemo" style="left: 27%; top: 61%; width: 46%; height: 8%;" aria-label="Open demo"></button>
+              <button class="hotspot ai-character-hotspot" data-hotspot="aiCharacter" style="left: 68%; top: 45%;" aria-label="Create a new AI Character"></button>
+              <button class="hotspot visible" data-hotspot="style" style="left: 28%; top: 86%; width: 45%; height: 7%;" aria-label="Choose art style"></button>
+              <button class="hotspot arrow-hotspot" data-hotspot="stylePrev" data-arrow="‹" style="left: 0%; top: 22%; width: 14%; height: 52%;" aria-label="Previous art style"></button>
+              <button class="hotspot arrow-hotspot" data-hotspot="styleNext" data-arrow="›" style="left: 86%; top: 22%; width: 14%; height: 52%;" aria-label="Next art style"></button>
+
+              <button class="hotspot motion-hotspot" data-hotspot="characterMotion" style="left: 50%; top: 50%;" aria-label="Character motion response"></button>
+              <button class="hotspot select-character-hotspot" data-hotspot="selectCharacter" style="left: 55%; top: 8%;" aria-label="Select chat character"></button>
+              <button class="hotspot" data-hotspot="chatTask" style="left: 14%; top: 78%; width: 72%; height: 6%;" aria-label="Chat task shortcut"></button>
+
+              <button class="hotspot" data-hotspot="manualPlan" style="left: 10%; top: 15%; width: 80%; height: 12%;" aria-label="Manual planning"></button>
+              <button class="hotspot" data-hotspot="aiImport" style="left: 10%; top: 30%; width: 80%; height: 12%;" aria-label="AI import"></button>
+              <button class="hotspot" data-hotspot="focus" style="left: 10%; top: 18%; width: 29%; height: 11%;" aria-label="Start focus session"></button>
+              <button class="hotspot" data-hotspot="confirmPomodoro" style="left: 9%; top: 66%; width: 82%; height: 8%;" aria-label="Confirm Pomodoro time"></button>
+              <button class="hotspot" data-hotspot="story" style="left: 55%; top: 91%; width: 17%; height: 7%;" aria-label="Exclusive story"></button>
+            </div>
+          </div>
+          <div class="scroll-cue" id="scrollCue"></div>
+          <div class="callout show" id="callout">
+            <strong>Tap the UI hotspots</strong>
+            <span>Interactions are now attached to the actual app screens, not a separate control panel.</span>
+          </div>
+        </div>
+
+        <div class="demo-actions" id="submodules">
+          <button class="action-card active" data-submodule="0">
+            <b>Product overview</b>
+            <span>A standalone product identity screen with the Luvluv Daily logo and storyline promise.</span>
+          </button>
+          <button class="action-card" data-submodule="1">
+            <b>Dice & reset</b>
+            <span>Use real UI hotspots to show random persona prompts and safe section reset.</span>
+          </button>
+          <button class="action-card" data-submodule="2">
+            <b>Art style</b>
+            <span>Switch to the actual Choose Art Style screen and highlight the preview.</span>
+          </button>
+          <div class="timer" id="timer">
+            <div class="time" id="time">25:00</div>
+            <div class="bar-track"><div class="bar" id="bar"></div></div>
+            <div class="story-unlock" id="story">Complete the session to unlock a shared story moment.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const copy = {
+        custom: {
+          eyebrow: "01 · Custom Character",
+          headline: "Create a companion from a few personal details.",
+          body: "The demo uses the real app UI. Tap the glowing points directly on the screen to preview random persona prompts, reset, and art style selection.",
+          screen: "custom-form"
+        },
+        chat: {
+          eyebrow: "02 · Presence Chat",
+          headline: "The character stays at the center of the conversation.",
+          body: "Tap the character or task chips. The concept layer explains how future motion responses can make chat feel more present and companion-like.",
+          screen: "chat"
+        },
+        planning: {
+          eyebrow: "03 · Planning Companion",
+          headline: "Plans move into focus sessions and story rewards.",
+          body: "Tap manual planning, AI import, or start focus. The interaction stays on top of the app UI so viewers understand the actual product flow.",
+          screen: "planning"
+        }
+      };
+
+      const hotspotCopy = {
+        dice: ["Random persona", "A dice button can fill a section with a surprising character prompt when users feel stuck."],
+        reset: ["Reset section", "Users can safely clear one section and try another direction without losing the whole character."],
+        style: ["Choose Art Style", "The flow moves into the real style selection UI, where the character look can be tuned visually."],
+        characterMotion: ["Motion response", "The character can react to chat context with posture, expression, and gentle animation cues."],
+        chatTask: ["Task shortcut", "Conversation and planning connect, so users can jump into a focused task with the companion."],
+        manualPlan: ["Manual planning", "Users can type a plan directly when they already know what they want to accomplish."],
+        aiImport: ["AI import", "Files or images can be interpreted by AI and turned into a structured plan."],
+        focus: ["Focus session", "A task can become a timed companion session. Completion unlocks story progress."]
+      };
+
+      const hotspotsByScene = {
+        custom: ["dice", "reset", "style"],
+        chat: ["characterMotion", "chatTask"],
+        planning: ["manualPlan", "aiImport", "focus"]
+      };
+
+      let scene = "custom";
+      let timer = null;
+      let seconds = 25 * 60;
+
+      const $ = (selector) => document.querySelector(selector);
+      const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+      function setScreen(name) {
+        $$(".screen-img").forEach((img) => img.classList.toggle("active", img.dataset.screen === name));
+      }
+
+      function showCallout(title, text) {
+        const callout = $("#callout");
+        callout.classList.remove("show");
+        window.setTimeout(() => {
+          callout.innerHTML = `<strong>${title}</strong><span>${text}</span>`;
+          callout.classList.add("show");
+        }, 90);
+      }
+
+      function setScene(next) {
+        scene = next;
+        const data = copy[next];
+        $("#eyebrow").textContent = data.eyebrow;
+        $("#headline").textContent = data.headline;
+        $("#body").textContent = data.body;
+        setScreen(data.screen);
+        $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.scene === next));
+        $$(".hotspot").forEach((spot) => {
+          spot.classList.toggle("visible", hotspotsByScene[next].includes(spot.dataset.hotspot));
+        });
+        $$(".action-card").forEach((card) => card.classList.remove("active"));
+        $(`[data-action="${next === "custom" ? "form" : next === "chat" ? "style" : "focusTimer"}"]`)?.classList.add("active");
+        $("#timer").classList.remove("visible");
+        showCallout(data.eyebrow, "Tap the glowing points on the real app screen to explore this feature.");
+      }
+
+      function updateTimer() {
+        const minutes = String(Math.max(0, Math.floor(seconds / 60))).padStart(2, "0");
+        const secs = String(Math.max(0, seconds % 60)).padStart(2, "0");
+        $("#time").textContent = `${minutes}:${secs}`;
+        $("#bar").style.width = `${Math.min(100, ((25 * 60 - seconds) / (25 * 60)) * 100)}%`;
+        if (seconds <= 0) {
+          clearInterval(timer);
+          $("#story").textContent = "Story unlocked: a new shared memory is added after task completion.";
+        }
+      }
+
+      function startFocusTimer() {
+        clearInterval(timer);
+        seconds = 25 * 60;
+        $("#timer").classList.add("visible");
+        $("#story").textContent = "Complete the session to unlock a shared story moment.";
+        updateTimer();
+        timer = setInterval(() => {
+          seconds -= 75;
+          updateTimer();
+        }, 180);
+      }
+
+      $$(".tab").forEach((tab) => tab.addEventListener("click", () => setScene(tab.dataset.scene)));
+
+      $$(".hotspot").forEach((spot) => {
+        spot.addEventListener("click", () => {
+          const key = spot.dataset.hotspot;
+          const [title, text] = hotspotCopy[key];
+          if (key === "style") {
+            setScreen("custom-style");
+          }
+          if (key === "focus") {
+            setScreen("focus");
+            startFocusTimer();
+          }
+          showCallout(title, text);
+        });
+      });
+
+      $$(".action-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          $$(".action-card").forEach((item) => item.classList.remove("active"));
+          card.classList.add("active");
+          if (card.dataset.action === "form") {
+            setScene("custom");
+          }
+          if (card.dataset.action === "style") {
+            setScene("custom");
+            setScreen("custom-style");
+            showCallout("Art style screen", "This uses the actual Choose Art Style UI from the app recording.");
+          }
+          if (card.dataset.action === "focusTimer") {
+            setScene("planning");
+            setScreen("focus");
+            startFocusTimer();
+            showCallout("Focus flow", "The planning flow can hand off into a companion focus session.");
+          }
+        });
+      });
+
+      setScene("custom");
+    </script>
+    <script>
+      (() => {
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+        const mainCopy = {
+          custom: {
+            eyebrow: "01 · Custom Character",
+            headline: "Create a companion from a few personal details.",
+            body: "Use the real character creation UI to show guided inputs, inspiration shortcuts, reference imagery, and style selection."
+          },
+          chat: {
+            eyebrow: "02 · Presence Chat",
+            headline: "The character stays at the center of the conversation.",
+            body: "The chat demo keeps the character as the emotional anchor, then adds concept callouts for motion and task-aware responses."
+          },
+          planning: {
+            eyebrow: "03 · Planning Companion",
+            headline: "Plans move into focus sessions and story rewards.",
+            body: "Planning is presented through real UI screens: create a plan, import with AI, enter focus, and unlock story progress."
+          }
+        };
+
+        const submodules = {
+          custom: [
+            {
+              title: "Section 1 · Basics",
+              text: "Name, preferred name, nickname, sex, age, perceived age, and appearance details.",
+              screen: "section-1",
+              hotspots: [],
+              callout: ["Section 1 · Basics", "This is the first part of the real New Character flow from the PDF design."]
+            },
+            {
+              title: "Section 2 · Role",
+              text: "Relationship, character role, speech style, and early persona direction.",
+              screen: "section-2",
+              hotspots: ["dice", "reset"],
+              callout: ["Section 2 · Role", "Dice and reset live inside the real section flow, helping users generate ideas without leaving the form."]
+            },
+            {
+              title: "Section 3 · Personality",
+              text: "Emotional depth, memory, background, and character traits that shape how the companion responds.",
+              screen: "section-3",
+              hotspots: ["dice", "reset"],
+              callout: ["Section 3 · Personality", "This section gives the character emotional texture instead of just a visual identity."]
+            },
+            {
+              title: "Section 4 · Details",
+              text: "Additional context and final generation controls complete the character setup.",
+              screen: "section-4",
+              hotspots: ["dice", "reset"],
+              callout: ["Section 4 · Details", "The final section gives users room to add anything personal before generation."]
+            },
+            {
+              title: "Art Style",
+              text: "After the four-section form, swipe through visual styles and tune the character image.",
+              screen: "style-1",
+              hotspots: ["style"],
+              callout: ["Choose Art Style", "This keeps the full character setup flow: four sections first, then visual style selection."]
+            }
+          ],
+          chat: [
+            {
+              title: "Character first",
+              text: "Keep the companion on screen and switch chat characters anytime from the name menu.",
+              screen: "chat",
+              hotspots: ["selectCharacter"],
+              callout: ["Switch characters", "Tap the name arrow to choose who you want to chat with."]
+            },
+            {
+              title: "Motion response",
+              text: "Conceptual motion cues show how the character can react to tone, intent, and emotional context.",
+              screen: "chat",
+              hotspots: ["characterMotion"],
+              callout: ["Motion response", "Future animation can translate chat context into posture, expression, and presence."]
+            },
+            {
+              title: "Task-aware chat",
+              text: "Task chips connect chatting with planning, so companionship can move directly into action.",
+              screen: "chat",
+              hotspots: ["chatTask"],
+              callout: ["Task shortcut", "The chat screen can become the bridge into a focused productivity moment."]
+            }
+          ],
+          planning: [
+            {
+              title: "Manual plan",
+              text: "Start from a simple typed goal when the user already knows what they want to do.",
+              screen: "planning",
+              hotspots: ["manualPlan"],
+              callout: ["Manual planning", "A familiar input flow keeps planning direct and low-friction."]
+            },
+            {
+              title: "AI import",
+              text: "Upload files or images and let AI convert messy material into a structured plan.",
+              screen: "planning",
+              hotspots: ["aiImport"],
+              callout: ["AI import", "This turns documents, screenshots, and notes into actionable tasks."]
+            },
+            {
+              title: "Focus & story",
+              text: "Swipe into a focus session, finish with the character, then unlock story progress.",
+              screen: "focus",
+              hotspots: ["focus"],
+              timer: true,
+              callout: ["Focus session", "Completion becomes a shared memory, not just a checked box."]
+            }
+          ]
+        };
+
+        const hotspotCopy = {
+          dice: ["Random persona", "A dice button can fill a section with a surprising character prompt when users feel stuck."],
+          reset: ["Reset section", "Users can safely clear one section and try another direction without losing the whole character."],
+          style: ["Choose Art Style", "The flow moves into the real style selection UI, where the character look can be tuned visually."],
+          characterMotion: ["Motion response", "The character can react to chat context with posture, expression, and gentle animation cues."],
+          chatTask: ["Task shortcut", "Conversation and planning connect, so users can jump into a focused task with the companion."],
+          manualPlan: ["Manual planning", "Users can type a plan directly when they already know what they want to accomplish."],
+          aiImport: ["AI import", "Files or images can be interpreted by AI and turned into a structured plan."],
+          focus: ["Focus session", "A task can become a timed companion session. Completion unlocks story progress."]
+        };
+
+        let currentScene = "custom";
+        let activeSubmodule = 0;
+        let timerHandle = null;
+        let seconds = 25 * 60;
+        let panY = 0;
+        let dragStartY = 0;
+        let dragStartX = 0;
+        let dragStartPan = 0;
+        let dragging = false;
+        let activeScreen = "custom-form";
+        let styleIndex = 1;
+        const styleScreens = ["style-1", "style-2", "style-3"];
+
+        function setScreen(name) {
+          activeScreen = name;
+          $$(".screen-img").forEach((img) => img.classList.toggle("active", img.dataset.screen === name));
+          $("#styleSwipeHint")?.classList.toggle("visible", styleScreens.includes(name));
+          updateScreenInteractionMode();
+          resetScreenPan();
+        }
+
+        function canPanCurrentScreen() {
+          return currentScene === "custom";
+        }
+
+        function updateScreenInteractionMode() {
+          const panEnabled = canPanCurrentScreen();
+          $(".screen").classList.toggle("pan-enabled", panEnabled);
+          $(".screen-scroll-hint")?.classList.toggle("visible", panEnabled && !styleScreens.includes(activeScreen));
+          if (!panEnabled) {
+            $("#styleSwipeHint")?.classList.remove("visible");
+          }
+        }
+
+        function panLimit() {
+          const screen = $(".screen");
+          return Math.max(64, screen.clientHeight * 0.085);
+        }
+
+        function applyScreenPan() {
+          const limit = panLimit();
+          panY = Math.max(-limit, Math.min(limit, panY));
+          $(".screen").style.setProperty("--screen-pan", `${panY}px`);
+          $$(".hotspot.visible").forEach((spot) => {
+            spot.style.transform = `translateY(${panY}px)`;
+          });
+        }
+
+        function resetScreenPan() {
+          panY = 0;
+          $(".screen").style.setProperty("--screen-zoom", canPanCurrentScreen() ? "1.08" : "1");
+          $$(".hotspot").forEach((spot) => {
+            spot.style.transform = "translateY(0px)";
+          });
+          applyScreenPan();
+        }
+
+        function setStyleIndex(index) {
+          styleIndex = Math.max(0, Math.min(styleScreens.length - 1, index));
+          setScreen(styleScreens[styleIndex]);
+        }
+
+        function setVisibleHotspots(hotspots) {
+          $$(".hotspot").forEach((spot) => {
+            const isVisible = hotspots.includes(spot.dataset.hotspot);
+            spot.classList.toggle("visible", isVisible);
+            const isGuided =
+              isVisible &&
+              ((isDiceResetSubmodule() && ["dice", "reset"].includes(spot.dataset.hotspot)) ||
+                (scene === "planning" && activeSubmodule === 2 && spot.dataset.hotspot === "story"));
+            spot.classList.toggle("guide-hotspot", isGuided);
+          });
+        }
+
+        function showCallout(title, text) {
+          const callout = $("#callout");
+          callout.classList.remove("show");
+          window.setTimeout(() => {
+            callout.innerHTML = `<strong>${title}</strong><span>${text}</span>`;
+            callout.classList.add("show");
+          }, 80);
+        }
+
+        function renderSubmodules() {
+          const items = submodules[currentScene];
+          $$(".action-card").forEach((card, index) => {
+            const item = items[index];
+            card.style.display = item ? "" : "none";
+            if (!item) return;
+            card.dataset.submodule = String(index);
+            card.querySelector("b").textContent = item.title;
+            card.querySelector("span").textContent = item.text;
+            card.classList.toggle("active", index === activeSubmodule);
+          });
+        }
+
+        function updateTimer() {
+          const minutes = String(Math.max(0, Math.floor(seconds / 60))).padStart(2, "0");
+          const secs = String(Math.max(0, seconds % 60)).padStart(2, "0");
+          $("#time").textContent = `${minutes}:${secs}`;
+          $("#bar").style.width = `${Math.min(100, ((25 * 60 - seconds) / (25 * 60)) * 100)}%`;
+          if (seconds <= 0) {
+            clearInterval(timerHandle);
+            $("#story").textContent = "Story unlocked: a new shared memory is added after task completion.";
+          }
+        }
+
+        function startFocusTimer() {
+          clearInterval(timerHandle);
+          seconds = 25 * 60;
+          $("#timer").classList.add("visible");
+          $("#story").textContent = "Complete the session to unlock a shared story moment.";
+          updateTimer();
+          timerHandle = setInterval(() => {
+            seconds -= 75;
+            updateTimer();
+          }, 180);
+        }
+
+        function setSubmodule(index, announce = true) {
+          activeSubmodule = index;
+          const item = submodules[currentScene][index];
+          renderSubmodules();
+          setScreen(item.screen);
+          setVisibleHotspots(item.hotspots);
+          $("#timer").classList.toggle("visible", Boolean(item.timer));
+          if (item.timer) {
+            startFocusTimer();
+          } else {
+            clearInterval(timerHandle);
+          }
+          if (announce) {
+            showCallout(item.callout[0], item.callout[1]);
+          }
+        }
+
+        function setScene(scene) {
+          currentScene = scene;
+          activeSubmodule = 0;
+          const data = mainCopy[scene];
+          $("#eyebrow").textContent = data.eyebrow;
+          $("#headline").textContent = data.headline;
+          $("#body").textContent = data.body;
+          $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.scene === scene));
+          $("#timer").classList.remove("visible");
+          renderSubmodules();
+          setSubmodule(0, false);
+          showCallout(data.eyebrow, "Choose a submodule on the right, then tap the highlighted UI area on the phone.");
+        }
+
+        $$(".tab").forEach((tab) => {
+          tab.addEventListener(
+            "click",
+            (event) => {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              setScene(tab.dataset.scene);
+            },
+            true
+          );
+        });
+
+        $$(".action-card").forEach((card) => {
+          card.addEventListener(
+            "click",
+            (event) => {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              setSubmodule(Number(card.dataset.submodule));
+            },
+            true
+          );
+        });
+
+        $$(".hotspot").forEach((spot) => {
+          spot.addEventListener(
+            "click",
+            (event) => {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              const key = spot.dataset.hotspot;
+              const [title, text] = hotspotCopy[key];
+              if (key === "style") setScreen("custom-style");
+              if (key === "focus") {
+                setScreen("focus");
+                startFocusTimer();
+              }
+              showCallout(title, text);
+            },
+            true
+          );
+        });
+
+        $(".screen").addEventListener("wheel", (event) => {
+          if (!canPanCurrentScreen()) return;
+          event.preventDefault();
+          if (styleScreens.includes(activeScreen) && Math.abs(event.deltaX) + Math.abs(event.deltaY) > 18) {
+            const direction = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+            if (direction > 0) setStyleIndex(styleIndex + 1);
+            if (direction < 0) setStyleIndex(styleIndex - 1);
+            return;
+          }
+          panY -= event.deltaY * 0.55;
+          applyScreenPan();
+        }, { passive: false });
+
+        $(".screen").addEventListener("pointerdown", (event) => {
+          if (!canPanCurrentScreen()) return;
+          dragging = true;
+          dragStartY = event.clientY;
+          dragStartX = event.clientX;
+          dragStartPan = panY;
+          $(".screen").setPointerCapture(event.pointerId);
+        });
+
+        $(".screen").addEventListener("pointermove", (event) => {
+          if (!canPanCurrentScreen()) return;
+          if (!dragging) return;
+          if (styleScreens.includes(activeScreen)) return;
+          panY = dragStartPan + (event.clientY - dragStartY);
+          applyScreenPan();
+        });
+
+        $(".screen").addEventListener("pointerup", (event) => {
+          if (!canPanCurrentScreen()) return;
+          if (dragging && styleScreens.includes(activeScreen)) {
+            const dx = event.clientX - dragStartX;
+            if (Math.abs(dx) > 36) {
+              setStyleIndex(styleIndex + (dx < 0 ? 1 : -1));
+            }
+          }
+          dragging = false;
+          $(".screen").releasePointerCapture(event.pointerId);
+        });
+
+        $(".screen").addEventListener("pointercancel", () => {
+          dragging = false;
+        });
+
+        setScene("custom");
+      })();
+    </script>
+    <script>
+      (() => {
+        const $ = (selector) => document.querySelector(selector);
+        const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+        function stripListeners(selector) {
+          $$(selector).forEach((node) => {
+            const clone = node.cloneNode(true);
+            node.replaceWith(clone);
+          });
+        }
+
+        stripListeners(".screen");
+        stripListeners(".tab");
+        stripListeners(".action-card");
+        stripListeners(".hotspot");
+
+        const copy = {
+          intro: {
+            eyebrow: "00 - Product",
+            headline: "Your life is the main storyline.",
+            body: "A standalone product moment that sets the emotional tone before the demo moves into character creation, chat, and planning."
+          },
+          custom: {
+            eyebrow: "01 - Custom Character",
+            headline: "Create a companion from a few personal details.",
+            body: "The demo uses the real app UI. Tap the glowing points directly on the screen to preview random persona prompts, reset, and art style selection."
+          },
+          chat: {
+            eyebrow: "02 - Presence Chat",
+            headline: "The character stays at the center of the conversation.",
+            body: "Tap the character or task chips. The concept layer explains how future motion responses can make chat feel more present and companion-like."
+          },
+          planning: {
+            eyebrow: "03 - Planning Companion",
+            headline: "Plans move into focus sessions and story rewards.",
+            body: "Create tasks manually or with AI, move into a Pomodoro session, then unlock a personal story with the character."
+          }
+        };
+
+        const submodules = {
+          intro: [
+            {
+              title: "Product overview",
+              text: "A soft product screen with the Luvluv Daily logo, product name, and storyline promise.",
+              screen: "intro",
+              hotspots: ["openDemo"],
+              callout: ["Product overview", "This screen stands apart from the three feature modules and gives the demo a warm product identity."]
+            }
+          ],
+          custom: [
+            {
+              title: "Custom character profile",
+              text: "Start from the character home screen, then tap Create a new AI Character to enter the profile form.",
+              screen: "character-home",
+              hotspots: ["aiCharacter"],
+              callout: ["Custom character profile", "The home screen introduces existing companions and the entry point for creating a new AI character."]
+            },
+            {
+              title: "Dice & reset",
+              text: "Use real UI hotspots to show random persona prompts and safe section reset.",
+              screen: "custom-form",
+              hotspots: ["dice", "reset"],
+              callout: ["Inspiration shortcuts", "Dice and reset make the MVP feel faster, lighter, and more playful."]
+            },
+            {
+              title: "Art style",
+              text: "Swipe through three real style previews and tune the character image.",
+              screen: "art-style-1",
+              hotspots: ["stylePrev", "styleNext"],
+              callout: ["Choose Art Style", "Use the side arrows to compare the three visual styles in order."]
+            }
+          ],
+          chat: [
+            {
+              title: "Character first",
+              text: "Keep the companion on screen and switch chat characters anytime from the name menu.",
+              screen: "chat",
+              hotspots: ["selectCharacter"],
+              callout: ["Switch characters", "Tap the name arrow to choose who you want to chat with."]
+            },
+            {
+              title: "Motion response",
+              text: "Conceptual motion cues show how the character can react to tone, intent, and emotional context.",
+              screen: "chat",
+              hotspots: ["characterMotion"],
+              callout: ["Motion response", "Future animation can translate chat context into posture, expression, and presence."]
+            },
+            {
+              title: "Task-aware chat",
+              text: "Task chips connect chatting with planning, so companionship can move directly into action.",
+              screen: "chat",
+              hotspots: ["chatTask"],
+              callout: ["Task shortcut", "The chat screen can become the bridge into a focused productivity moment."]
+            }
+          ],
+          planning: [
+            {
+              title: "Manual plan & AI import",
+              text: "Create a task by typing directly, or let AI turn files and images into structured tasks.",
+              screen: "focus",
+              hotspots: ["manualPlan", "aiImport"],
+              callout: ["Plan creation", "Users can choose the fastest path: manual input when they know the task, AI import when the material is messy."]
+            },
+            {
+              title: "Pomodoro",
+              text: "Swipe a task into Pomodoro, set the time, then start a companion focus chat.",
+              screen: "planning",
+              hotspots: ["focus"],
+              callout: ["Pomodoro focus", "Tap the Pomodoro hotspot on the task row to open the time setting screen."]
+            },
+            {
+              title: "Exclusive story",
+              text: "After completing focus, the Story tab unlocks a personal shared moment with the character.",
+              screen: "planning",
+              hotspots: ["story"],
+              callout: ["Exclusive story", "Completion turns into relationship progress, giving users a warmer reason to come back."]
+            }
+          ]
+        };
+
+        const hotspotCopy = {
+          openDemo: ["Open demo", "Start the walkthrough from character creation."],
+          aiCharacter: ["Create a new AI Character", "This opens the full New Character profile form for custom companion setup."],
+          dice: ["Random persona", "A dice button can fill a section with a surprising character prompt when users feel stuck."],
+          reset: ["Reset section", "Users can safely clear one section and try another direction without losing the whole character."],
+          style: ["Choose Art Style", "The flow moves into the real style selection UI, where the character look can be tuned visually."],
+          stylePrev: ["Previous style", "Move to the previous art style preview."],
+          styleNext: ["Next style", "Move to the next art style preview."],
+          characterMotion: ["Motion response", "The character can react to chat context with posture, expression, and gentle animation cues."],
+          selectCharacter: ["Switch characters", "Choose a different companion from the character menu without leaving chat."],
+          chatTask: ["Task shortcut", "Conversation and planning connect, so users can jump into a focused task with the companion."],
+          manualPlan: ["Manual planning", "Users can type a task directly when they already know what they want to accomplish."],
+          aiImport: ["AI import", "Files or images can be interpreted by AI and turned into a structured task list."],
+          focus: ["Pomodoro time", "Set the estimated work time before the task moves into a companion focus chat."],
+          confirmPomodoro: ["Companion focus chat", "Confirming the time opens the character chat with the reading clock at the top."],
+          story: ["Exclusive story", "After a completed focus session, the Story tab becomes a place for shared character progress."]
+        };
+
+        let scene = "intro";
+        let activeSubmodule = 0;
+        let timer = null;
+        let seconds = 25 * 60;
+        let activeScreen = "intro";
+        const artStyleScreens = ["art-style-1", "art-style-2", "art-style-3"];
+        let artStyleIndex = 0;
+        let taskToastVisible = false;
+        let longPan = 0;
+        let dragStartY = 0;
+        let dragStartPan = 0;
+        let draggingLong = false;
+
+        function longPanLimit() {
+          const screen = $(".screen");
+          const img = $(".screen-img.long-screen");
+          if (!screen || !img) return 0;
+          const renderedHeight = img.getBoundingClientRect().height;
+          return Math.max(0, renderedHeight - screen.clientHeight);
+        }
+
+        function applyLongPan() {
+          const limit = longPanLimit();
+          longPan = Math.max(-limit, Math.min(0, longPan));
+          $(".screen").style.setProperty("--long-pan", `${longPan}px`);
+        }
+
+        function resetLongPan() {
+          longPan = 0;
+          $(".screen").style.setProperty("--long-pan", "0px");
+        }
+
+        function isDiceResetSubmodule() {
+          return scene === "custom" && activeSubmodule === 1;
+        }
+
+        function canScrollLongScreen() {
+          return activeScreen === "custom-form" && !isDiceResetSubmodule();
+        }
+
+        function updateScreenOverlays() {
+          $("#scrollCue")?.classList.toggle("visible", canScrollLongScreen());
+          $("#phoneTimer")?.classList.toggle("visible", activeScreen === "chat-clock" && timer !== null);
+        }
+
+        function setHotspotRect(name, rect) {
+          const spot = document.querySelector(`[data-hotspot="${name}"]`);
+          if (!spot) return;
+          Object.entries(rect).forEach(([key, value]) => {
+            spot.style[key] = value;
+          });
+        }
+
+        function positionCustomHotspots() {
+          if (isDiceResetSubmodule()) {
+            setHotspotRect("dice", { left: "72%", top: "52%", width: "9%", height: "9%" });
+            setHotspotRect("reset", { left: "83.5%", top: "52%", width: "9%", height: "9%" });
+            return;
+          }
+
+          setHotspotRect("dice", { left: "72%", top: "58%", width: "12%", height: "7%" });
+          setHotspotRect("reset", { left: "86%", top: "58%", width: "11%", height: "7%" });
+        }
+
+        function positionPlanningHotspots() {
+          if (scene !== "planning") return;
+
+          if (activeSubmodule === 0) {
+            setHotspotRect("manualPlan", { left: "7%", top: "38%", width: "43%", height: "26%" });
+            setHotspotRect("aiImport", { left: "50%", top: "38%", width: "43%", height: "26%" });
+            return;
+          }
+
+          if (activeSubmodule === 1) {
+            setHotspotRect("focus", { left: "7%", top: "17%", width: "31%", height: "12%" });
+            return;
+          }
+
+          if (activeSubmodule === 2) {
+            setHotspotRect("story", { left: "54%", top: "91%", width: "24%", height: "8%" });
+          }
+        }
+
+        function setScreen(name) {
+          activeScreen = name;
+          const motionVideo = $("#motionVideo");
+          if (motionVideo) {
+            motionVideo.pause();
+            motionVideo.classList.remove("visible");
+          }
+          document.querySelector(".screen").style.removeProperty("--screen-pan");
+          document.querySelector(".screen").style.removeProperty("--screen-zoom");
+          $$(".screen-img").forEach((img) => {
+            img.classList.toggle("active", img.dataset.screen === name);
+            if (!img.classList.contains("long-screen")) {
+              img.style.transform = "";
+            }
+          });
+          resetLongPan();
+          $$(".hotspot").forEach((spot) => {
+            spot.style.transform = "";
+          });
+          if (name !== "chat-clock") $("#phoneTimer")?.classList.remove("visible");
+          if (name !== "chat") {
+            taskToastVisible = false;
+            $("#taskToast")?.classList.remove("visible");
+          }
+          updateScreenOverlays();
+        }
+
+        function playMotionResponse() {
+          const video = $("#motionVideo");
+          if (!video) return;
+          setScreen("chat");
+          video.currentTime = 0;
+          video.classList.add("visible");
+          const playPromise = video.play();
+          if (playPromise) playPromise.catch(() => video.classList.remove("visible"));
+        }
+
+        function setArtStyle(index) {
+          artStyleIndex = (index + artStyleScreens.length) % artStyleScreens.length;
+          setScreen(artStyleScreens[artStyleIndex]);
+          setVisibleHotspots(["stylePrev", "styleNext"]);
+        }
+
+        function setVisibleHotspots(hotspots) {
+          $$(".hotspot").forEach((spot) => {
+            const isVisible = hotspots.includes(spot.dataset.hotspot);
+            spot.classList.toggle("visible", isVisible);
+            const isGuided =
+              isVisible &&
+              ((isDiceResetSubmodule() && ["dice", "reset"].includes(spot.dataset.hotspot)) ||
+                (scene === "custom" && activeSubmodule === 0 && spot.dataset.hotspot === "aiCharacter") ||
+                (scene === "chat" && activeSubmodule === 0 && spot.dataset.hotspot === "selectCharacter") ||
+                (scene === "planning" && activeSubmodule === 2 && spot.dataset.hotspot === "story"));
+            spot.classList.toggle("guide-hotspot", isGuided);
+          });
+        }
+
+        function showCallout(title, text) {
+          const callout = $("#callout");
+          callout.innerHTML = `<strong>${title}</strong><span>${text}</span>`;
+        }
+
+        function renderSubmodules() {
+          const items = submodules[scene];
+          $$(".action-card").forEach((card, index) => {
+            const item = items[index];
+            card.style.display = item ? "" : "none";
+            if (!item) return;
+            card.dataset.submodule = String(index);
+            card.querySelector("b").textContent = item.title;
+            card.querySelector("span").textContent = item.text;
+            card.classList.toggle("active", index === activeSubmodule);
+          });
+        }
+
+        function updateTimer() {
+          const minutes = String(Math.max(0, Math.floor(seconds / 60))).padStart(2, "0");
+          const secs = String(Math.max(0, seconds % 60)).padStart(2, "0");
+          $("#time").textContent = `${minutes}:${secs}`;
+          $("#phoneTime").textContent = `${minutes}:${secs}`;
+          $("#bar").style.width = `${Math.min(100, ((25 * 60 - seconds) / (25 * 60)) * 100)}%`;
+          if (seconds <= 0) {
+            clearInterval(timer);
+            $("#story").textContent = "Story unlocked: a new shared memory is added after task completion.";
+          }
+        }
+
+        function startFocusTimer() {
+          clearInterval(timer);
+          seconds = 25 * 60;
+          $("#timer").classList.remove("visible");
+          $("#phoneTimer")?.classList.add("visible");
+          $("#story").textContent = "Complete the session to unlock a shared story moment.";
+          updateTimer();
+          timer = setInterval(() => {
+            seconds -= 75;
+            updateTimer();
+          }, 180);
+        }
+
+        function setSubmodule(index, announce = true) {
+          if (scene === "chat" && index === 2 && activeSubmodule === 2 && activeScreen === "chat") {
+            taskToastVisible = !taskToastVisible;
+            $("#taskToast")?.classList.toggle("visible", taskToastVisible);
+            if (announce) showCallout("Task-aware chat", taskToastVisible ? "The completion popup is now visible on the chat screen." : "The completion popup is hidden.");
+            return;
+          }
+
+          activeSubmodule = index;
+          const item = submodules[scene][index];
+          renderSubmodules();
+          if (item.screen === "art-style-1") artStyleIndex = 0;
+          setScreen(item.screen);
+          if (scene === "chat" && index === 2) {
+            taskToastVisible = true;
+            $("#taskToast")?.classList.add("visible");
+          } else {
+            taskToastVisible = false;
+            $("#taskToast")?.classList.remove("visible");
+          }
+          if (isDiceResetSubmodule()) resetLongPan();
+          positionCustomHotspots();
+          positionPlanningHotspots();
+          setVisibleHotspots(item.hotspots);
+          $("#timer").classList.toggle("visible", Boolean(item.timer));
+          if (item.timer) {
+            startFocusTimer();
+          } else {
+            clearInterval(timer);
+            timer = null;
+            $("#phoneTimer")?.classList.remove("visible");
+          }
+          updateScreenOverlays();
+          if (announce) showCallout(item.callout[0], item.callout[1]);
+        }
+
+        function setScene(next) {
+          scene = next;
+          activeSubmodule = 0;
+          $("#eyebrow").textContent = copy[next].eyebrow;
+          $("#headline").textContent = copy[next].headline;
+          $("#body").textContent = copy[next].body;
+          $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.scene === next));
+          $("#timer").classList.remove("visible");
+          $("#phoneTimer")?.classList.remove("visible");
+          renderSubmodules();
+          setSubmodule(0, false);
+          showCallout(copy[next].eyebrow, "Choose a submodule on the right, then tap the highlighted UI area on the phone.");
+        }
+
+        $$(".tab").forEach((tab) => {
+          tab.addEventListener("click", () => setScene(tab.dataset.scene));
+        });
+
+        $$(".action-card").forEach((card) => {
+          card.addEventListener("click", () => setSubmodule(Number(card.dataset.submodule)));
+        });
+
+        $$(".hotspot").forEach((spot) => {
+          spot.addEventListener("click", () => {
+            const key = spot.dataset.hotspot;
+            const [title, text] = hotspotCopy[key];
+            if (key === "openDemo") {
+              setScene("custom");
+              showCallout(title, text);
+              return;
+            }
+            if (key === "aiCharacter") {
+              setScreen("custom-form");
+              resetLongPan();
+              setVisibleHotspots([]);
+              showCallout(title, text);
+              return;
+            }
+            if (key === "style") setArtStyle(0);
+            if (key === "stylePrev") {
+              setArtStyle(artStyleIndex - 1);
+              showCallout(title, text);
+              return;
+            }
+            if (key === "styleNext") {
+              setArtStyle(artStyleIndex + 1);
+              showCallout(title, text);
+              return;
+            }
+            if (key === "characterMotion") {
+              playMotionResponse();
+              showCallout(title, text);
+              return;
+            }
+            if (key === "selectCharacter") {
+              setScreen("select-character");
+              setVisibleHotspots([]);
+              showCallout(title, text);
+              return;
+            }
+            if (key === "chatTask") {
+              taskToastVisible = !taskToastVisible;
+              $("#taskToast")?.classList.toggle("visible", taskToastVisible);
+              showCallout("Task-aware chat", taskToastVisible ? "The completion popup is now visible on the chat screen." : "The completion popup is hidden.");
+              return;
+            }
+            if (key === "focus") {
+              setScreen("pomodoro-time");
+              setVisibleHotspots(["confirmPomodoro"]);
+              showCallout(title, text);
+              return;
+            }
+            if (key === "confirmPomodoro") {
+              setScreen("chat-clock");
+              setVisibleHotspots([]);
+              startFocusTimer();
+              showCallout(title, text);
+              return;
+            }
+            if (key === "story") {
+              setScreen("story-chapters");
+              setVisibleHotspots([]);
+              showCallout(title, text);
+              return;
+            }
+            showCallout(title, text);
+          });
+        });
+
+        $(".screen").classList.remove("pan-enabled");
+        $(".screen").addEventListener("wheel", (event) => {
+          if (activeScreen === "custom-form" && isDiceResetSubmodule()) {
+            event.preventDefault();
+            resetLongPan();
+            return;
+          }
+          if (!canScrollLongScreen()) return;
+          event.preventDefault();
+          longPan -= event.deltaY * 0.75;
+          applyLongPan();
+        }, { passive: false });
+
+        $(".screen").addEventListener("pointerdown", (event) => {
+          if (!canScrollLongScreen()) return;
+          draggingLong = true;
+          dragStartY = event.clientY;
+          dragStartPan = longPan;
+          $(".screen").setPointerCapture(event.pointerId);
+        });
+
+        $(".screen").addEventListener("pointermove", (event) => {
+          if (!draggingLong || !canScrollLongScreen()) return;
+          longPan = dragStartPan + (event.clientY - dragStartY);
+          applyLongPan();
+        });
+
+        $(".screen").addEventListener("pointerup", (event) => {
+          if (!draggingLong) return;
+          draggingLong = false;
+          $(".screen").releasePointerCapture(event.pointerId);
+        });
+
+        $(".screen").addEventListener("pointercancel", () => {
+          draggingLong = false;
+        });
+
+        $("#motionVideo")?.addEventListener("ended", () => {
+          $("#motionVideo")?.classList.remove("visible");
+        });
+
+        setScene("intro");
+      })();
+    </script>
+  </body>
+</html>
