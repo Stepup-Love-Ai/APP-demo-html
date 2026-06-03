@@ -28,6 +28,7 @@
         --card-padding-x: 20px;
         --card-title-size: 17px;
         --card-body-size: 14px;
+        --action-gap: 14px;
         --topbar-gap: 20px;
         --nav-gap: 14px;
         --brand-gap: 12px;
@@ -685,7 +686,7 @@
       .demo-actions {
         align-self: center;
         display: grid;
-        gap: 14px;
+        gap: var(--action-gap);
       }
 
       .action-card {
@@ -786,6 +787,50 @@
         .tabs {
           flex: 1 0 auto;
         }
+      }
+
+      body.portrait-layout .app {
+        padding: 14px 14px 24px;
+      }
+
+      body.portrait-layout .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      body.portrait-layout .nav-wrap {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      body.portrait-layout .stage {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+          "copy"
+          "phone"
+          "actions";
+        align-items: start;
+        justify-items: center;
+        min-height: 0;
+        padding-top: 8px;
+      }
+
+      body.portrait-layout .story-copy {
+        grid-area: copy;
+        width: var(--copy-col);
+        justify-self: center;
+      }
+
+      body.portrait-layout .demo-actions {
+        grid-area: actions;
+        width: var(--actions-col);
+        justify-self: center;
+      }
+
+      body.portrait-layout .phone-wrap {
+        grid-area: phone;
+        justify-self: center;
       }
     </style>
   </head>
@@ -914,6 +959,7 @@
           cardPaddingX: 20,
           cardTitle: 17,
           cardBody: 14,
+          actionGap: 14,
           topbarGap: 20,
           navGap: 14,
           brandGap: 12,
@@ -967,6 +1013,70 @@
           const topbarHeight = topbar.getBoundingClientRect().height;
           const availableWidth = Math.max(320, window.innerWidth - horizontalPadding);
           const availableHeight = Math.max(320, window.innerHeight - verticalPadding - topbarHeight - 16);
+          const isPortrait = window.innerHeight > window.innerWidth && window.innerWidth <= 820;
+          document.body.classList.toggle("portrait-layout", isPortrait);
+
+          if (isPortrait) {
+            const width = Math.max(292, window.innerWidth - 28);
+            const phoneWidth = Math.min(width * 0.72, window.innerHeight * 0.31, 320);
+            const phoneScale = phoneWidth / design.phoneWidth;
+
+            setPx("--copy-col", width);
+            setPx("--actions-col", width);
+            setPx("--phone-col", phoneWidth);
+            setPx("--stage-gap", 10);
+            setPx("--phone-width", phoneWidth);
+            setPx("--phone-radius", design.phoneRadius * phoneScale);
+            setPx("--phone-padding", design.phonePadding * phoneScale);
+            setPx("--screen-radius", design.screenRadius * phoneScale);
+            setPx("--eyebrow-size", 12);
+            setPx("--headline-size", 28);
+            setPx("--body-size", 13);
+            setPx("--card-min-height", 58);
+            setPx("--card-padding-y", 12);
+            setPx("--card-padding-x", 14);
+            setPx("--card-title-size", 14);
+            setPx("--card-body-size", 12);
+            setPx("--action-gap", 10);
+            setPx("--topbar-gap", 6);
+            setPx("--nav-gap", 6);
+            setPx("--brand-gap", 7);
+            setPx("--brand-size", 14);
+            setPx("--brand-mark-size", 24);
+            setPx("--brand-mark-radius", 8);
+            setPx("--tab-group-gap", 4);
+            setPx("--tab-group-padding", 4);
+            setPx("--tab-width", 78);
+            setPx("--tab-height", 29);
+            setPx("--tab-size", 11);
+            setPx("--intro-gap", design.introGap * phoneScale);
+            setPx("--intro-padding-y", design.introPaddingY * phoneScale);
+            setPx("--intro-padding-x", design.introPaddingX * phoneScale);
+            setPx("--intro-logo-size", design.introLogo * phoneScale);
+            setPx("--intro-title-size", design.introTitle * phoneScale);
+            setPx("--intro-tagline-width", design.introTaglineWidth * phoneScale);
+            setPx("--intro-tagline-size", design.introTagline * phoneScale);
+            setPx("--intro-cta-margin", design.introCtaMargin * phoneScale);
+            setPx("--intro-cta-padding-y", design.introCtaPaddingY * phoneScale);
+            setPx("--intro-cta-padding-x", design.introCtaPaddingX * phoneScale);
+            setPx("--intro-cta-size", design.introCta * phoneScale);
+            setPx("--intro-foot-margin", design.introFootMargin * phoneScale);
+            setPx("--intro-foot-size", design.introFoot * phoneScale);
+            setPx("--scroll-cue-right", design.scrollCueRight * phoneScale);
+            setPx("--scroll-cue-width", design.scrollCueWidth * phoneScale);
+            setPx("--scroll-cue-height", design.scrollCueHeight * phoneScale);
+            setPx("--scroll-cue-size", design.scrollCue * phoneScale);
+            setPx("--scroll-cue-arrow-offset", design.scrollCueArrowOffset * phoneScale);
+            setPx("--task-toast-padding-y", design.taskToastPaddingY * phoneScale);
+            setPx("--task-toast-padding-x", design.taskToastPaddingX * phoneScale);
+            setPx("--task-toast-radius", design.taskToastRadius * phoneScale);
+            setPx("--task-toast-offset", design.taskToastOffset * phoneScale);
+            setPx("--task-toast-title-gap", design.taskToastTitleGap * phoneScale);
+            setPx("--task-toast-title-size", design.taskToastTitle * phoneScale);
+            setPx("--task-toast-body-size", design.taskToastBody * phoneScale);
+            return;
+          }
+
           const scale = Math.min(1, availableWidth / design.width, availableHeight / design.height);
 
           setPx("--copy-col", design.copyCol * scale);
@@ -985,6 +1095,7 @@
           setPx("--card-padding-x", design.cardPaddingX * scale);
           setPx("--card-title-size", design.cardTitle * scale);
           setPx("--card-body-size", design.cardBody * scale);
+          setPx("--action-gap", design.actionGap * scale);
           setPx("--topbar-gap", design.topbarGap * scale);
           setPx("--nav-gap", design.navGap * scale);
           setPx("--brand-gap", design.brandGap * scale);
